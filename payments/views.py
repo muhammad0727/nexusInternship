@@ -6,7 +6,6 @@ from .models import Transaction
 from .serializers import TransactionSerializer, DepositSerializer
 
 # Create your views here.
-stripe.api_key = settings.STRIPE_SECRET_KEY
 
 class DepositView(views.APIView):
     permission_classes = [permissions.IsAuthenticated]
@@ -14,7 +13,7 @@ class DepositView(views.APIView):
     def post(self, request):
         serializer = DepositSerializer(data=request.data)
         if serializer.is_valid():
-
+            stripe.api_key = settings.STRIPE_SECRET_KEY
             try:
                 # Create a new Stripe customer
                 '''
@@ -60,5 +59,3 @@ class TransactionHistoryView(views.APIView):
     def get_queryset(self):
         transactions = Transaction.objects.filter(user=self.request.user).order_by('-timestamp')
         return transactions
-
-    

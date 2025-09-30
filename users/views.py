@@ -5,6 +5,11 @@ from .serializers import UserRegistrationSerializer, UserProfileSerializer
 
 # Create your views here.
 
+class UserListView(generics.ListAPIView):
+    queryset = CustomUser.objects.all()
+    serializer_class = UserProfileSerializer
+    permission_classes = [permissions.AllowAny] # Or IsAuthenticated, depending on requirements
+
 class UserRegistrationView(generics.CreateAPIView):
     queryset = CustomUser.objects.all()
     serializer_class = UserRegistrationSerializer
